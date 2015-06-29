@@ -1,0 +1,15 @@
+<package>
+  <description brief="particle_filter">
+
+     particle_filter
+
+  </description>
+  <author>Vinay Yadav</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/particle_filter</url>
+  <depend package="roscpp"/>
+
+</package>
+
+
