@@ -73,9 +73,10 @@ namespace particle_filter
       /*
        *
        */
-      const std::vector<T> getParticles() const
+      const std::vector<T>& getParticles() const
       {
-        return static_cast<const std::vector<T> >(_particles);
+        //std::cout<<"Const called"<<std::endl;
+        return _particles;
       }
       /*
        *
@@ -123,18 +124,18 @@ namespace particle_filter
       /*
        *
        */
-      std::vector<T> _particles;
-      /*
-       *
-       */
     protected:
       /*
        *
        */
+      std::vector<T> _particles;
       /*
        *
        */
       int _num_of_particles;
+      /*
+       *
+       */
       std::default_random_engine generator;
     private:
   };

@@ -64,13 +64,15 @@ namespace particle_filter
       void update(const Particles<T> &input,Particles<T> &output,const T2& obs)
       {
         //
-        auto it1=input._particles.begin();
+        auto __input = input.getParticles();
         //
-        //std::cout<<input._particles.begin()->getStates().size()<<'\n';
+        std::vector<T>& __output = output.getParticles();
         //
-        auto it2=output._particles.begin();
+        auto it1=__input.begin();
         //
-        for(;it1<input._particles.end();it1++,it2++)
+        auto it2=__output.begin();
+        //
+        for(;it1<__input.end();it1++,it2++)
         {
           //
           auto val = this->statePDF(*it1,*it2);
@@ -88,9 +90,13 @@ namespace particle_filter
       void resample(const Particles<T> &input,Particles<T> &output)
       {
         //
+        auto __input = input.getParticles();
+        //
+        std::vector<T>& __output = output.getParticles();
+        //
         std::vector<float> _weights;
         //
-        for(auto it=input._particles.begin();it<input._particles.end();it++)
+        for(auto it=__input.begin();it<__input.end();it++)
         {
           //
           _weights.push_back(it->getWeight());
@@ -98,14 +104,14 @@ namespace particle_filter
         //
         std::discrete_distribution<int> gen (_weights.begin(),_weights.end());
         //
-        std::copy(input._particles.begin(),input._particles.end(),output._particles.begin());
+        std::copy(__input.begin(),__input.end(),__output.begin());
         //
-        for(auto it=output._particles.begin();it<output._particles.end();it++)
+        for(auto it=__output.begin();it<__output.end();it++)
         {
           //
           int index = gen(generator);
           //
-          *it=input._particles[index];
+          *it=__input[index];
         }
         //
         output.normalizeWeights();

@@ -40,9 +40,13 @@ namespace particle_filter
       bool updateStates(const Particles<T> &input, Particles<T> &output)
       {
         //
-        auto val = output._particles.begin();
+        const std::vector<T>& __input = input.getParticles();
         //
-        for(auto it=input._particles.begin();it<input._particles.end();it++,val++)
+        std::vector<T>& __output = output.getParticles();
+        //
+        auto val = __output.begin();
+        //
+        for(auto it=__input.begin();it<__input.end();it++,val++)
         {
           //
           update(*it,*val);
@@ -56,13 +60,15 @@ namespace particle_filter
       T getState(const Particles<T> &input)
       {
         //
-        auto it = input._particles.begin();
+        auto __input = input.getParticles();
+        //
+        auto it = __input.begin();
         //
         T vals = T(_size);
         //
         std::vector<float> __vals(_size);
         //
-        for(;it<input._particles.end();it++)
+        for(;it<__input.end();it++)
         {
           //
           auto in = it->getStates().begin();
@@ -72,16 +78,8 @@ namespace particle_filter
           for(;in<it->getStates().end();in++,vl++)
           {
             //
-            *vl+=*in;
+            *vl+=*in*(it->getWeight());
           }
-        }
-        //
-        int len = input._particles.size();
-        //
-        for(auto it=__vals.begin();it<__vals.end();it++)
-        {
-          //
-          *it = (*it)/float(len);
         }
         //
         vals.setStates(__vals);
