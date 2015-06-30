@@ -36,7 +36,7 @@ namespace particle_filter
       /*
        *
        */
-      bool updateMeasurement(const T &input, T &output)
+      bool updateMeasurement(const std::vector<T> &input, std::vector<T> &output)
       {
         //
         auto val = output.begin();
@@ -57,7 +57,7 @@ namespace particle_filter
         auto val = rand.begin();
         for(auto it=in.begin();it<in.end();it++,val++)
         {
-          vals.push_back(1*exp(*it/2.0)+*val);
+          vals.push_back(1*exp(*it/2.0)*(*val));
         }
         output.setState(vals);
       }

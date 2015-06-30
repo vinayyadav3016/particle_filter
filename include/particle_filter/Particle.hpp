@@ -17,7 +17,7 @@ namespace particle_filter
       /*
        *
        */
-      Particle(int states=1,float weight=0.0);
+      Particle(int states=1,float weight=1.0);
       /*
        *
        */
@@ -25,11 +25,11 @@ namespace particle_filter
       /*
        *
        */
-      const std::vector<float>& getState() const;
+      const std::vector<float>& getStates() const;
       /*
        *
        */
-      void setState(const std::vector<float> &state);
+      void setStates(const std::vector<float> &state);
       /*
        *
        */

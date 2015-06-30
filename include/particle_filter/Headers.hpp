@@ -9,6 +9,7 @@
 #include<cmath>
 #include<mlpack/core.hpp>
 #include<fstream>
+#include<random>
 //#include<mlpack/code/dist/gaussian_distribution.hpp>
 
 #endif

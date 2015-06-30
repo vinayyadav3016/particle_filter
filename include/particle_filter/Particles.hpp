@@ -16,7 +16,7 @@ namespace particle_filter
       {
         for(int i=0;i<nums;i++)
         {
-          _particles.push_back(T(states,i));
+          _particles.push_back(T(states,1));
         }
       }
       /*
@@ -66,7 +66,32 @@ namespace particle_filter
       /*
        *
        */
-      bool resample();
+      std::vector<T>& getParticles()
+      {
+        return _particles;
+      }
+      /*
+       *
+       */
+      const std::vector<T> getParticles() const
+      {
+        return static_cast<const std::vector<T> >(_particles);
+      }
+      /*
+       *
+       */
+      void normalizeWeights()
+      {
+        float val =1e-6;
+        for(auto it=_particles.begin();it<_particles.end();it++)
+        {
+          val+=it->getWeight();
+        }
+        for(auto it=_particles.begin();it<_particles.end();it++)
+        {
+          it->setWeight(it->getWeight()/val);
+        }
+      }
       /*
        *
        */
@@ -95,13 +120,6 @@ namespace particle_filter
         }
         return input;
       }
-      /**
-       *
-       */
-      /*
-       *
-       */
-    protected:
       /*
        *
        */
@@ -109,9 +127,16 @@ namespace particle_filter
       /*
        *
        */
+    protected:
+      /*
+       *
+       */
+      /*
+       *
+       */
       int _num_of_particles;
+      std::default_random_engine generator;
     private:
-
   };
 }
 #endif

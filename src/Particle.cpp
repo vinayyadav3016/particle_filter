@@ -19,7 +19,7 @@ namespace particle_filter
   /*
    *
    */
-  void Particle::setState(const std::vector<float> &state)
+  void Particle::setStates(const std::vector<float> &state)
   {
     //
     if(state.size()!=_state.size())
@@ -35,7 +35,7 @@ namespace particle_filter
   /*
    *
    */
-  const std::vector<float>& Particle::getState() const
+  const std::vector<float>& Particle::getStates() const
   {
     //
     return _state;
