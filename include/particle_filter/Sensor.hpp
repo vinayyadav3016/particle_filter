@@ -30,12 +30,12 @@ namespace particle_filter
       /*
        *
        */
-      bool updateMeasurement(const Particles &input, Particles &output);
+      bool updateMeasurement(const Particle &input, const Particles &input_state, Particles &output_state);
     protected:
       /*
        *
        */
-      virtual void update(const Particle &input,Particle &output);
+      virtual void update(const Particle &input,const Particle &input_state,Particle &output_state);
       /*
        *
        */

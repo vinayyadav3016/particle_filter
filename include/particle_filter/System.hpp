@@ -30,11 +30,11 @@ namespace particle_filter
       /*
        *
        */
-      bool updateStates(const Particles &input, Particles &output);
+      bool updateStates(const Particle& input,const Particles &input_state, Particles &output_state);
       /*
        *
        */
-      Particle getState(const Particles &input);
+      Particle getState(const Particles &input_state);
     protected:
       /*
        *
@@ -43,7 +43,7 @@ namespace particle_filter
       /*
        *
        */
-      virtual void update(const Particle&input,Particle &output);
+      virtual void update(const Particle &input,const Particle &input_state,Particle &output_state);
     private:
   };
 }// namespace particle_filter

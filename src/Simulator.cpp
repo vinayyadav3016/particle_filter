@@ -33,7 +33,7 @@ namespace particle_filter
   void Simulator::simulate(const Particles &input,Particles &output,const Particle&obs)
   {
     //
-    this->updateStates(input,output);
+    this->updateStates(Particle(),input,output);
     //
     this->update(input,output,obs);
     //

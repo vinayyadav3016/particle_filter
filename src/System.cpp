@@ -20,19 +20,19 @@ namespace particle_filter
   /*
    *
    */
-  bool System::updateStates(const Particles &input, Particles &output)
+  bool System::updateStates(const Particle &input,const Particles &input_state, Particles &output_state)
   {
     //
-    const std::vector<Particle>& __input = input.getParticles();
+    const std::vector<Particle>& __input = input_state.getParticles();
     //
-    std::vector<Particle>& __output = output.getParticles();
+    std::vector<Particle>& __output = output_state.getParticles();
     //
     auto val = __output.begin();
     //
     for(auto it=__input.begin();it<__input.end();it++,val++)
     {
       //
-      update(*it,*val);
+      update(input,*it,*val);
     }
     //
     return true;
@@ -40,10 +40,10 @@ namespace particle_filter
   /*
    *
    */
-  Particle System::getState(const Particles &input)
+  Particle System::getState(const Particles &input_state)
   {
     //
-    auto __input = input.getParticles();
+    auto __input = input_state.getParticles();
     //
     auto it = __input.begin();
     //
@@ -72,12 +72,12 @@ namespace particle_filter
   /*
    *
    */
-  void System::update(const Particle&input, Particle&output)
+  void System::update(const Particle &input,const Particle&input_state, Particle&output_state)
   {
     //
     std::vector<float> vals ;
     //
-    auto in = input.getStates();
+    auto in = input_state.getStates();
     //
     auto rand = getRandom();
     //
@@ -89,6 +89,6 @@ namespace particle_filter
       vals.push_back(0.91*(*it)+*val);
     }
     //
-    output.setStates(vals);
+    output_state.setStates(vals);
   }
 }
