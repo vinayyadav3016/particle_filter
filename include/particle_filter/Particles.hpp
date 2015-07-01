@@ -5,20 +5,13 @@
 
 namespace particle_filter
 {
-  template<typename T>
   class Particles
   {
     public:
       /*
        *
        */
-      Particles(int states=1,int nums=0):_num_of_particles(nums)
-      {
-        for(int i=0;i<nums;i++)
-        {
-          _particles.push_back(T(states,1));
-        }
-      }
+      Particles(int states=1,int nums=0);
       /*
        *
        */
@@ -26,101 +19,35 @@ namespace particle_filter
       /*
        *
        */
-      void clear()
-      {
-        //
-        _particles.clear();
-        //
-        _num_of_particles=0;
-      }
+      void clear();
       /*
        *
        */
-      void reset()
-      {
-        //
-        for(auto it=_particles.begin();it<_particles.end();it++)
-        {
-          //
-          it->reset();
-        }
-      }
+      void reset();
       /*
        *
        */
-      bool modifyWeights(const std::vector<float> & weights)
-      {
-        //
-        if (weights.size()!=_num_of_particles)
-        {
-          return false;
-        }
-        auto val = weights.begin();
-        for(auto it=_particles.begin();it<_particles.end();it++,val++)
-        {
-          //
-          it->setWeight(*val);
-        }
-        return true;
-      }
+      bool modifyWeights(const std::vector<float> & weights);
       /*
        *
        */
-      std::vector<T>& getParticles()
-      {
-        return _particles;
-      }
+      std::vector<Particle>& getParticles();
       /*
        *
        */
-      const std::vector<T>& getParticles() const
-      {
-        //std::cout<<"Const called"<<std::endl;
-        return _particles;
-      }
+      const std::vector<Particle>& getParticles() const;
       /*
        *
        */
-      void normalizeWeights()
-      {
-        float val =1e-6;
-        for(auto it=_particles.begin();it<_particles.end();it++)
-        {
-          val+=it->getWeight();
-        }
-        for(auto it=_particles.begin();it<_particles.end();it++)
-        {
-          it->setWeight(it->getWeight()/val);
-        }
-      }
+      void normalizeWeights();
       /*
        *
        */
-      friend std::ostream &operator<< (std::ostream &output,const Particles<T> &n)
-      {
-        //
-        output<<n._num_of_particles;
-        for(auto it = n._particles.begin();it!=n._particles.end();it++)
-        {
-          output<<'\t'<<*it;
-        }
-        output<<std::endl;
-        return output;
-      }
+      friend std::ostream &operator << (std::ostream &output,const Particles &n);
       /*
        *
        */
-      friend std::istream &operator>> (std::istream &input,Particles<T> &n)
-      {
-        input>>n._num_of_particles;
-        for(int i=0;i<n._num_of_particles;i++)
-        {
-          auto t = T();
-          input>>t;
-          n._particles.push_back(t);
-        }
-        return input;
-      }
+      friend std::istream &operator>> (std::istream &input,Particles &n);
       /*
        *
        */
@@ -128,7 +55,7 @@ namespace particle_filter
       /*
        *
        */
-      std::vector<T> _particles;
+      std::vector<Particle> _particles;
       /*
        *
        */

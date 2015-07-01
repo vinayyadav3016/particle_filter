@@ -3,29 +3,23 @@
 
 #include<particle_filter/Headers.hpp>
 #include<particle_filter/Random.hpp>
+#include<particle_filter/Particles.hpp>
 namespace particle_filter
 {
   /*
    *
    */
-  template<typename T>
   class Sensor : public Random
   {
     public:
       /*
        *
        */
-      Sensor(int size):Random(size)
-      {
-        //
-      }
+      Sensor(int size);
       /*
        *
        */
-      void initiate()
-      {
-        //
-      }
+      void initiate();
       /*
        *
        */
@@ -36,31 +30,17 @@ namespace particle_filter
       /*
        *
        */
-      bool updateMeasurement(const std::vector<T> &input, std::vector<T> &output)
-      {
-        //
-        auto val = output.begin();
-        for(auto it=input.begin();it<input.end();it++,val++)
-        {
-          update(*it,*val);
-        }
-        return true;
-      }
+      bool updateMeasurement(const Particles &input, Particles &output);
     protected:
+      /*
+       *
+       */
+      virtual void update(const Particle &input,Particle &output);
+      /*
+       *
+       */
+      int _size;
     private:
-      void update(const T &input,T &output)
-      {
-        //
-        std::vector<float> vals ;
-        auto in = input.getState();
-        auto rand= getRandom();
-        auto val = rand.begin();
-        for(auto it=in.begin();it<in.end();it++,val++)
-        {
-          vals.push_back(1*exp(*it/2.0)*(*val));
-        }
-        output.setState(vals);
-      }
   };
 }// namespace particle_filter
 #endif

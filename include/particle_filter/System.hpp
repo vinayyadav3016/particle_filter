@@ -9,24 +9,17 @@ namespace particle_filter
   /*
    *
    */
-  template<typename T>
   class System : public Random
   {
     public:
       /*
        *
        */
-      System(int size):Random(size),_size(size)
-      {
-        //
-      }
+      System(int size);
       /*
        *
        */
-      void initiate()
-      {
-        //
-      }
+      void initiate();
       /*
        *
        */
@@ -37,77 +30,21 @@ namespace particle_filter
       /*
        *
        */
-      bool updateStates(const Particles<T> &input, Particles<T> &output)
-      {
-        //
-        const std::vector<T>& __input = input.getParticles();
-        //
-        std::vector<T>& __output = output.getParticles();
-        //
-        auto val = __output.begin();
-        //
-        for(auto it=__input.begin();it<__input.end();it++,val++)
-        {
-          //
-          update(*it,*val);
-        }
-        //
-        return true;
-      }
+      bool updateStates(const Particles &input, Particles &output);
       /*
        *
        */
-      T getState(const Particles<T> &input)
-      {
-        //
-        auto __input = input.getParticles();
-        //
-        auto it = __input.begin();
-        //
-        T vals = T(_size);
-        //
-        std::vector<float> __vals(_size);
-        //
-        for(;it<__input.end();it++)
-        {
-          //
-          auto in = it->getStates().begin();
-          //
-          auto vl = __vals.begin();
-          //
-          for(;in<it->getStates().end();in++,vl++)
-          {
-            //
-            *vl+=*in*(it->getWeight());
-          }
-        }
-        //
-        vals.setStates(__vals);
-        //
-        return vals;
-      }
+      Particle getState(const Particles &input);
     protected:
+      /*
+       *
+       */
       int _size;
+      /*
+       *
+       */
+      virtual void update(const Particle&input,Particle &output);
     private:
-      void update(const T &input,T &output)
-      {
-        //
-        std::vector<float> vals ;
-        //
-        auto in = input.getStates();
-        //
-        auto rand = getRandom();
-        //
-        auto val = rand.begin();
-        //
-        for(auto it=in.begin();it<in.end();it++,val++)
-        {
-          //
-          vals.push_back(0.91*(*it)+*val);
-        }
-        //
-        output.setStates(vals);
-      }
   };
 }// namespace particle_filter
 #endif

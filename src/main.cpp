@@ -19,7 +19,7 @@ int main(int argc,char** argv)
   */
   std::ifstream in("data/data_y");
   std::ofstream out("data/vinay_x");
-  Simulator<Particle,Particle> _simu(1,1,2000);
+  Simulator _simu(1,1,20);
   std::cout<<"Simulator initialized"<<std::endl;
   Particle obs(1,0);
   std::vector<float> vals;
