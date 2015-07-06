@@ -51,6 +51,8 @@ namespace particle_filter
     //
     std::vector<float> __vals(_size);
     //
+    float len = __input.size();
+    //
     for(;it<__input.end();it++)
     {
       //
@@ -61,7 +63,7 @@ namespace particle_filter
       for(;in<it->getStates().end();in++,vl++)
       {
         //
-        *vl+=*in*(it->getWeight());
+        *vl+=*in/len;
       }
     }
     //

@@ -3,7 +3,7 @@
 namespace particle_filter
 {
   Simulator::Simulator(int state, int obs, int num_of_particels, System *system, Sensor *sensor, Distribution *dist):_x1(state,num_of_particels),
-  _x2(state,num_of_particels),_observation(obs),_state(state),_system(system),_sensor(sensor),_distribution(dist)
+  _x2(state,num_of_particels),_x3(obs,num_of_particels),_observation(obs),_prediction(obs),_state(state),_system(system),_sensor(sensor),_distribution(dist)
   {
   }
   /*
@@ -14,18 +14,34 @@ namespace particle_filter
     return _state;
   }
   /*
+  *
+  */
+  Particle Simulator::getCurrentPrediction() const
+  {
+    return _prediction;
+  }
+  /*
    *
    */
-  void Simulator::doSingleStep(const Particle& obs)
+  const Particle& Simulator::Predict(const Particle& input)
   {
-    //
-    simulate(_x1,_x2,obs);
-    //
-    resample(_x2,_x1);
-    //
-    this->_observation=obs;
-    //
-    this->_state = _system->getState(_x1);
+      _system->updateStates(input,_x1,_x2);
+      _sensor->updateMeasurement(input,_x2,_x3);
+      _prediction = _sensor->getState(_x3);
+      return _prediction;
+  }
+  /*
+   *
+   */
+  float Simulator::update(const Particle& input,const Particle& obs)
+  {
+      this->_observation=obs;
+      this->update(_x1,_x2,obs);
+      _x2.normalizeWeights();
+      resample(_x2,_x1);
+      _x1.normalizeWeights();
+      this->_state = _system->getState(_x1);
+      return _sensor->getError(_prediction,obs);
   }
   /*
    *

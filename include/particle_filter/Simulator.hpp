@@ -25,11 +25,18 @@ namespace particle_filter
        *
        */
       Particle getCurrentState() const;
-
       /*
        *
        */
-      void doSingleStep(const Particle& obs);
+      Particle getCurrentPrediction() const;
+      /*
+       *
+       */
+      const Particle &Predict(const Particle& input);
+      /*
+       *
+       */
+      float update(const Particle& input,const Particle& obs);
       /*
        *
        */
@@ -59,6 +66,14 @@ namespace particle_filter
        *
        */
       Particle _state;
+      /*
+       *
+       */
+      Particles _x3;
+      /*
+       *
+       */
+      Particle _prediction;
       /*
        *
        */

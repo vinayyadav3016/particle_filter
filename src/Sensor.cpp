@@ -20,12 +20,12 @@ namespace particle_filter
   /*
    *
    */
-  bool Sensor::updateMeasurement(const Particle &input, const Particles &input_state, Particles &output_state)
+  bool Sensor::updateMeasurement(const Particle &input, const Particles &input_state, Particles &output_measuresments)
   {
     //
     const std::vector<Particle>& __input = input_state.getParticles();
     //
-    std::vector<Particle>& __output = output_state.getParticles();
+    std::vector<Particle>& __output = output_measuresments.getParticles();
     //
     auto val = __output.begin();
     //
@@ -40,7 +40,41 @@ namespace particle_filter
   /*
    *
    */
-  void Sensor::update(const Particle &input,const Particle &input_state,Particle &output_state)
+  Particle Sensor::getState(const Particles &input_state)
+  {
+    //
+    auto __input = input_state.getParticles();
+    //
+    float len = __input.size();
+    //
+    auto it = __input.begin();
+    //
+    Particle vals = Particle(_size);
+    //
+    std::vector<float> __vals(_size);
+    //
+    for(;it<__input.end();it++)
+    {
+      //
+      auto in = it->getStates().begin();
+      //
+      auto vl = __vals.begin();
+      //
+      for(;in<it->getStates().end();in++,vl++)
+      {
+        //
+        *vl+=(*in)/len;
+      }
+    }
+    //
+    vals.setStates(__vals);
+    //
+    return vals;
+  }
+  /*
+   *
+   */
+  void Sensor::update(const Particle &input, const Particle &input_state, Particle &output_measurement)
   {
     //
     std::vector<float> vals;
@@ -57,6 +91,25 @@ namespace particle_filter
       vals.push_back(1*exp(*it/2)*(*val));
     }
     //
-    output_state.setStates(vals);
+    output_measurement.setStates(vals);
+  }
+  /*
+   *
+   */
+  float Sensor::getError(const Particle &input, const Particle &output)
+  {
+      //
+      float error=0;
+      //
+      auto __input = input.getStates();
+      //
+      auto __output = output.getStates();
+      //
+      for(auto it=__input.begin(),it1=__output.begin();it<__input.end();it++,it1++)
+      {
+          //
+          error+=pow((*it1)-(*it),2);
+      }
+      return sqrt(error);
   }
 }
