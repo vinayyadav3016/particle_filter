@@ -26,6 +26,7 @@ namespace particle_filter
   const Particle& Simulator::Predict(const Particle& input)
   {
       _system->updateStates(input,_x1,_x2);
+      //std::cout<<_x2.getParticles()[0].getStates().size()<<std::endl;
       _sensor->updateMeasurement(input,_x2,_x3);
       _x3.modifyWeights(_x1.getWeights());
       _prediction = _sensor->getMeasurement(_x3);
@@ -74,10 +75,13 @@ namespace particle_filter
     {
       //
       auto val = _distribution->statePDF(*it1,*it2);
+      //std::cout<<"s:"<<val<<std::endl;
       //
       val*=_distribution->observationPDF(*it2,obs);
+      //std::cout<<"o:"<<val<<std::endl;
       //
-      val/=_distribution->proposalPDF(*it1,*it2,obs);
+      val/=(_distribution->proposalPDF(*it1,*it2,obs)+1e-38);
+      //std::cout<<"p:"<<val<<std::endl;
       //
       it2->setWeight(it1->getWeight()*val);
     }
@@ -99,6 +103,14 @@ namespace particle_filter
       //
       _weights.push_back(it->getWeight());
     }
+    //
+    float  val=0;
+    for(auto it=_weights.begin();it<_weights.end();it++)
+    {
+        //std::cout<<*it<<'\t';
+        //val+=*it;
+    }
+    //std::cout<<val<<std::endl;
     //
     std::discrete_distribution<int> gen (_weights.begin(),_weights.end());
     //

@@ -17,7 +17,7 @@ namespace particle_filter
       /*
        *
        */
-      Particle(int states=1,float weight=1.0);
+      Particle(int states=0,float weight=1.0);
       /*
        *
        */

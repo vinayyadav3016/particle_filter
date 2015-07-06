@@ -18,6 +18,10 @@ namespace particle_filter
              *
              */
             virtual ~ExampleSystem(){}
+            /*
+             *
+             */
+            virtual Particle getState(const Particles &input_state);
         protected:
             /*
              *

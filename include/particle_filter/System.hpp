@@ -34,7 +34,7 @@ namespace particle_filter
       /*
        *
        */
-      Particle getState(const Particles &input_state);
+      virtual Particle getState(const Particles &input_state);
     protected:
       /*
        *

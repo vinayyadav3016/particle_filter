@@ -8,6 +8,11 @@ namespace particle_filter
   Particle::Particle(int states,float weight):_weight(weight),_state(states)
   {
     //
+    _state.clear();
+    for(int i=0;i<states;i++)
+    {
+        _state.push_back(0.0);
+    }
   }
   /*
    *
@@ -24,6 +29,8 @@ namespace particle_filter
     //
     if(state.size()!=_state.size())
     {
+      std::cout<<"Error"<<std::endl;
+      std::cout<<state.size()<<":"<<_state.size()<<std::endl;
       return;
     }
     auto val = _state.begin();

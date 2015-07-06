@@ -18,6 +18,10 @@ namespace particle_filter
              *
              */
             virtual ~ExampleSensor(){}
+            /*
+             *
+             */
+            virtual Particle getMeasurement(const Particles &input_measurement);
         protected:
             /*
              *
