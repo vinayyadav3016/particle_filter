@@ -63,7 +63,7 @@ namespace particle_filter
       for(;in<it->getStates().end();in++,vl++)
       {
         //
-        *vl+=*in/len;
+        *vl+=*in*(it->getWeight());
       }
     }
     //

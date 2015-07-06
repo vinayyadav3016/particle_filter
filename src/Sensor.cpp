@@ -40,10 +40,10 @@ namespace particle_filter
   /*
    *
    */
-  Particle Sensor::getState(const Particles &input_state)
+  Particle Sensor::getMeasurement(const Particles &input_measurement)
   {
     //
-    auto __input = input_state.getParticles();
+    auto __input = input_measurement.getParticles();
     //
     float len = __input.size();
     //
@@ -63,7 +63,7 @@ namespace particle_filter
       for(;in<it->getStates().end();in++,vl++)
       {
         //
-        *vl+=(*in)/len;
+        *vl+=(*in)*(it->getWeight());
       }
     }
     //

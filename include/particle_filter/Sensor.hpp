@@ -34,7 +34,7 @@ namespace particle_filter
       /*
        *
        */
-      Particle getState(const Particles &input_state);
+      Particle getMeasurement(const Particles &input_measurement);
       /*
        *
        */

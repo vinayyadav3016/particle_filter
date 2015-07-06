@@ -27,7 +27,8 @@ namespace particle_filter
   {
       _system->updateStates(input,_x1,_x2);
       _sensor->updateMeasurement(input,_x2,_x3);
-      _prediction = _sensor->getState(_x3);
+      _x3.modifyWeights(_x1.getWeights());
+      _prediction = _sensor->getMeasurement(_x3);
       return _prediction;
   }
   /*

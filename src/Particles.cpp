@@ -55,6 +55,19 @@ namespace particle_filter
   /*
    *
    */
+  std::vector<float> Particles::getWeights() const
+  {
+      std::vector<float> weights;
+    for(auto it=_particles.begin();it<_particles.end();it++)
+    {
+      //
+      weights.push_back(it->getWeight());
+    }
+    return weights;
+  }
+  /*
+   *
+   */
   std::vector<Particle>& Particles::getParticles()
   {
     //
