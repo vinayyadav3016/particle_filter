@@ -11,12 +11,12 @@ namespace particle_filter
   /*
    *
    */
-  class Simulator: public Sensor, public System,public Distribution
+  class Simulator
   {
     /*
      */
     public:
-      Simulator(int state,int obs,int num_of_particels);
+      Simulator(int state,int obs,int num_of_particels,System* system,Sensor* sensor,Distribution* dist);
       /*
        *
        */
@@ -67,6 +67,18 @@ namespace particle_filter
        *
        */
       std::default_random_engine generator;
+      /*
+       *
+       */
+      System* _system;
+      /*
+       *
+       */
+      Sensor* _sensor;
+      /*
+       *
+       */
+      Distribution* _distribution;
   };
 }//namespace particle_filer
 #endif

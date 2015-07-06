@@ -19,7 +19,10 @@ int main(int argc,char** argv)
   */
   std::ifstream in("data/data_y");
   std::ofstream out("data/vinay_x");
-  Simulator _simu(1,1,20);
+  System system(1);
+  Sensor sensor(1);
+  Distribution dist;
+  Simulator _simu(1,1,20,&system,&sensor,&dist);
   std::cout<<"Simulator initialized"<<std::endl;
   Particle obs(1,0);
   std::vector<float> vals;

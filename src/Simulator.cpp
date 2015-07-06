@@ -2,8 +2,8 @@
 
 namespace particle_filter
 {
-  Simulator::Simulator(int state,int obs,int num_of_particels):System(state),Sensor(obs),_x1(state,num_of_particels),
-  _x2(state,num_of_particels),_observation(obs),_state(state),Distribution()
+  Simulator::Simulator(int state, int obs, int num_of_particels, System *system, Sensor *sensor, Distribution *dist):_x1(state,num_of_particels),
+  _x2(state,num_of_particels),_observation(obs),_state(state),_system(system),_sensor(sensor),_distribution(dist)
   {
   }
   /*
@@ -25,7 +25,7 @@ namespace particle_filter
     //
     this->_observation=obs;
     //
-    this->_state = this->getState(_x1);
+    this->_state = _system->getState(_x1);
   }
   /*
    *
@@ -33,7 +33,7 @@ namespace particle_filter
   void Simulator::simulate(const Particles &input,Particles &output,const Particle&obs)
   {
     //
-    this->updateStates(Particle(),input,output);
+    _system->updateStates(Particle(),input,output);
     //
     this->update(input,output,obs);
     //
@@ -56,11 +56,11 @@ namespace particle_filter
     for(;it1<__input.end();it1++,it2++)
     {
       //
-      auto val = this->statePDF(*it1,*it2);
+      auto val = _distribution->statePDF(*it1,*it2);
       //
-      val*=this->observationPDF(*it2,obs);
+      val*=_distribution->observationPDF(*it2,obs);
       //
-      val/=this->proposalPDF(*it1,*it2,obs);
+      val/=_distribution->proposalPDF(*it1,*it2,obs);
       //
       it2->setWeight(it1->getWeight()*val);
     }
